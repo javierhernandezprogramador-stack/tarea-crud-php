@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+
+  web:
+    build: ./apache
+    container_name: apache_php
+    ports:
+      - "8080:80"
+      - "2222:22"
+    volumes:
+      - ./www:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - app-networkphp
+  db:
+    image: mariadb:10.6
+    container_name: mariadb10.6
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: Root1234.$
+      MARIADB_DATABASE: db_nueva
+      MARIADB_USER: ele1990
+      MARIADB_PASSWORD: Root1234.$
+      
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./www/util/schema:/docker-entrypoint-initdb.d
+    networks:
+      - app-networkphp
+
+volumes:
+  db_data:
+
+networks:
+  app-networkphp:
+
+
+
+
+
+    
